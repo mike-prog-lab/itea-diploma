@@ -9,4 +9,6 @@ sudo apt update && sudo apt -y install openvpn-as
 
 OPENVPN_PASSWORD="$(aws ssm get-parameter --name /openvpn/initial/password --with-decryption --region us-east-2 | jq -cr .Parameter.Value)"
 
-sudo echo "openvpn:$OPENVPN_PASSWORD" | chpasswd
+sudo useradd openvpn
+
+sudo echo "openvpn:$OPENVPN_PASSWORD" | sudo chpasswd
