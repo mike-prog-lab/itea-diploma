@@ -1,0 +1,19 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-2
+#groups:
+#  gitlab: gitlab in (ec2_tags|list)
+filters:
+  tag:Project: Student7Diploma
+keyed_groups:
+  - key: tags
+    prefix: tag
+
+  # this creates a common parent group for all ec2 availability zones
+#  - key: placement.availability_zone
+#    prefix: zone
+#    parent_group: all_ec2_zones
+hostnames:
+  - private-ip-address
+compose:
+  ansible_host: private_ip_address

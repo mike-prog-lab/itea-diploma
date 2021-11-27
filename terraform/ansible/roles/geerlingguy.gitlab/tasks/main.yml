@@ -10,6 +10,11 @@
   stat: path=/usr/bin/gitlab-ctl
   register: gitlab_file
 
+- name: Update APT to fix issue "No package matching 'gnupg2' is available"
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
 # Install GitLab and its dependencies.
 - name: Install GitLab dependencies.
   package:
