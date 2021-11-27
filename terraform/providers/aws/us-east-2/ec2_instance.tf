@@ -19,22 +19,27 @@ module "ec2_instance_openvpn_access_server" {
   }
 }
 
-#module "ec2_instance_gitlab" {
-#  source  = "terraform-aws-modules/ec2-instance/aws"
-#  version = "~> 3.0"
-#
-#  name = "diploma-openvpn"
-#
-#  # TODO: change AMI to CentOS 8
-#  ami                    = var.ec2_gitlab_ami
-#  instance_type          = var.ec2_gitlab_type
-#  key_name               = aws_key_pair.devops.key_name
-#  vpc_security_group_ids = [module.sg_ops_ssh_access.security_group_id]
-#  subnet_id              = module.vpc.private_subnets[0]
-#
-#  user_data_base64 = filebase64("./static/openvpn/user_data.sh")
-#}
-#
+module "ec2_instance_gitlab" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "diploma-gitlab"
+
+  # TODO: change AMI to CentOS 8
+  ami                    = var.ec2_gitlab_ami
+  instance_type          = var.ec2_gitlab_type
+  key_name               = aws_key_pair.devops.key_name
+  vpc_security_group_ids = [module.sg_ops_ssh_access.security_group_id]
+  subnet_id              = module.vpc.private_subnets[0]
+
+  tags = {
+    Project = var.project_name
+    Service = "gitlab"
+  }
+
+  
+}
+
 #module "ec2_instance_jenkins" {
 #  source  = "terraform-aws-modules/ec2-instance/aws"
 #  version = "~> 3.0"

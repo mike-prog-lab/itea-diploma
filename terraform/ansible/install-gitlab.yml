@@ -1,0 +1,9 @@
+---
+- hosts: "tag_Role_gitlab"
+  become: true
+  gather_facts: yes
+  vars:
+    gitlab_domain: hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+    gitlab_email_enabled: true
+  roles:
+    - geerlingguy.gitlab
