@@ -24,25 +24,30 @@ module "sg_openvpn_access_server_allow" {
   egress_rules = ["all-all"]
 }
 
-module "sg_gitlab" {
+module "sg_gogs" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "gitlab-sg"
-  description = "SG for self-hosted GitLab service."
+  name        = "gogs-sg"
+  description = "SG for self-hosted Gogs service."
   vpc_id      = module.vpc.vpc_id
+
+  ingress_with_source_security_group_id = [
+    {
+      from_port                = 3000
+      to_port                  = 3000
+      protocol                 = "tcp"
+      source_security_group_id = module.sg_openvpn_access_server_allow.security_group_id
+    }
+  ]
 
   computed_ingress_with_source_security_group_id = [
     {
       rule                     = "ssh-tcp"
       source_security_group_id = module.sg_openvpn_access_server_allow.security_group_id
-    },
-    {
-      rule                     = "https-443-tcp"
-      source_security_group_id = module.sg_openvpn_access_server_allow.security_group_id
     }
   ]
 
-  number_of_computed_ingress_with_source_security_group_id = 2
+  number_of_computed_ingress_with_source_security_group_id = 1
 
   egress_rules = ["all-all"]
 }

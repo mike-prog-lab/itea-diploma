@@ -4,9 +4,9 @@ output "ec2_openvpn_access_server" {
   }
 }
 
-output "ec2_gitlab" {
+output "ec2_gogs" {
   value = {
-    private_ipv4 = module.ec2_instance_gitlab.private_ip
+    private_ipv4 = module.ec2_instance_gogs.private_ip
   }
 }
 
